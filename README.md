@@ -2,7 +2,7 @@
 
 > 🚀 A lightweight, zero-backend tool to compare who you follow on GitHub with who follows you back.
 
-![GitHub FollowBack Checker](https://img.shields.io/badge/🚀-FollowBack-Checker-blue?style=for-the-badge)
+![GitHub FollowBack Checker](https://img.shields.io/badge/FollowBack-Checker-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 ![Node](https://img.shields.io/badge/node-20+-brightgreen?style=for-the-badge)
 

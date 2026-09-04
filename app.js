@@ -52,6 +52,12 @@ sortList.addEventListener('change', renderUserList);
 exportCsv.addEventListener('click', downloadCsv);
 exportJson.addEventListener('click', downloadJson);
 
+const urlUsername = new URLSearchParams(window.location.search).get('username');
+if (urlUsername) {
+  usernameInput.value = urlUsername.replace(/^@/, '');
+  checkUser(urlUsername);
+}
+
 async function checkUser(rawUsername) {
   const username = rawUsername.trim().replace(/^@/, '').replace(/\\/g, '');
   if (!username) return;
