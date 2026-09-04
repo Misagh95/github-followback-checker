@@ -1,0 +1,28 @@
+name: Auto Unfollow
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unfollow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Unfollow non-followers
+        run: node scripts/auto-unfollow.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTO_UNFOLLOW_TOKEN }}
+          GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
+          DRY_RUN: 'false'
+          MAX_UNFOLLOWS: '25'
+          EXCLUDE_USERS: ${{ vars.EXCLUDE_USERS }}

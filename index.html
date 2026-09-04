@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="بررسی کنید چه کسانی را در گیت‌هاب دنبال می‌کنید اما شما را دنبال نمی‌کنند." />
+    <title>فالو‌بک‌چکر گیت‌هاب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Estedad:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <header class="topbar container">
+      <a class="brand" href="#top" aria-label="صفحه اصلی فالو‌بک‌چکر">
+        <span class="brand-mark" aria-hidden="true">⌁</span>
+        <span>فالو‌بک‌چکر</span>
+      </a>
+      <a class="github-link" href="https://github.com" target="_blank" rel="noreferrer">
+        <span>GitHub</span>
+        <span aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <main id="top" class="container">
+      <section class="hero">
+        <div class="eyebrow"><span class="status-dot"></span> ابزار رایگان و متن‌باز</div>
+        <h1>فالو‌بک‌هات رو<br /><span>شفاف ببین.</span></h1>
+        <p class="hero-copy">بفهمید چه کسانی را در گیت‌هاب دنبال می‌کنید، اما هنوز شما را دنبال نکرده‌اند.</p>
+
+        <form id="check-form" class="search-panel">
+          <label for="username">نام کاربری گیت‌هاب</label>
+          <div class="input-row">
+            <div class="input-wrap">
+              <span class="input-prefix">github.com/</span>
+              <input id="username" name="username" type="text" value="Misagh95" placeholder="username" autocomplete="off" spellcheck="false" required />
+            </div>
+            <button id="check-button" type="submit">
+              <span class="button-label">بررسی کن</span>
+              <span class="button-arrow" aria-hidden="true">←</span>
+            </button>
+          </div>
+          <div class="form-footer">
+            <span>اطلاعات فقط از API عمومی گیت‌هاب خوانده می‌شود.</span>
+            <button id="token-toggle" class="token-toggle" type="button" aria-expanded="false">توکن اختیاری برای محدودیت بیشتر</button>
+          </div>
+          <div id="token-area" class="token-area" hidden>
+            <label for="token">توکن دسترسی گیت‌هاب <span>(در مرورگر ذخیره نمی‌شود)</span></label>
+            <input id="token" type="password" placeholder="ghp_... یا github_pat_..." autocomplete="off" />
+          </div>
+        </form>
+      </section>
+
+      <section id="results" class="results" aria-live="polite">
+        <div id="empty-state" class="empty-state">
+          <div class="empty-icon" aria-hidden="true">◌</div>
+          <h2>آماده‌ایم شروع کنیم</h2>
+          <p>نام کاربری را وارد کنید تا وضعیت فالو‌بک‌هایتان را ببینید.</p>
+        </div>
+
+        <div id="loading-state" class="loading-state" hidden>
+          <div class="spinner"></div>
+          <h2>در حال بررسی فالوورها...</h2>
+          <p id="loading-detail">دریافت اطلاعات از گیت‌هاب</p>
+        </div>
+
+        <div id="error-state" class="error-state" hidden>
+          <div class="error-icon" aria-hidden="true">!</div>
+          <h2>دریافت اطلاعات ناموفق بود</h2>
+          <p id="error-message"></p>
+          <button id="retry-button" class="secondary-button" type="button">تلاش دوباره</button>
+        </div>
+
+        <div id="data-state" hidden>
+          <div class="result-heading">
+            <div>
+              <div class="eyebrow">گزارش حساب <span id="result-username"></span></div>
+              <h2>وضعیت ارتباط‌های شما</h2>
+            </div>
+            <div class="result-actions">
+              <button id="export-csv" class="secondary-button" type="button">دانلود CSV</button>
+              <button id="export-json" class="secondary-button" type="button">دانلود JSON</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card stat-main">
+              <div class="stat-label">دنبال نمی‌کنند</div>
+              <div class="stat-value accent-value" id="not-following-count">—</div>
+              <div class="stat-note">از <span id="following-count">—</span> دنبال‌شده</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">دنبال‌کننده‌ها</div>
+              <div class="stat-value" id="followers-count">—</div>
+              <div class="stat-note">در حال حاضر</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">ارتباط دوطرفه</div>
+              <div class="stat-value" id="mutual-count">—</div>
+              <div class="stat-note">فالو‌بک‌شده</div>
+            </article>
+            <article class="stat-card rate-card">
+              <div class="stat-label">نرخ فالو‌بک</div>
+              <div class="rate-wrap"><div class="stat-value" id="followback-rate">—</div><span>%</span></div>
+              <div class="progress"><span id="rate-progress"></span></div>
+            </article>
+          </div>
+
+          <div class="list-toolbar">
+            <div>
+              <h3>کسانی که فالو‌بک نکرده‌اند</h3>
+              <p id="list-summary">—</p>
+            </div>
+            <div class="list-tools">
+              <label class="select-wrap" for="sort-list">
+                <span>مرتب‌سازی</span>
+                <select id="sort-list">
+                  <option value="name">نام کاربری</option>
+                  <option value="id">قدیمی‌ترها اول</option>
+                </select>
+              </label>
+              <label class="filter-wrap" for="list-filter">
+                <span aria-hidden="true">⌕</span>
+                <input id="list-filter" type="search" placeholder="جست‌وجو" />
+              </label>
+            </div>
+          </div>
+          <div id="user-list" class="user-list"></div>
+          <div id="no-results" class="no-results" hidden>موردی با این جست‌وجو پیدا نشد.</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      <span>ساخته‌شده برای جامعه‌ی توسعه‌دهندگان</span>
+      <span class="footer-separator">•</span>
+      <a href="https://docs.github.com/en/rest/users/followers" target="_blank" rel="noreferrer">مستندات GitHub API ↗</a>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
