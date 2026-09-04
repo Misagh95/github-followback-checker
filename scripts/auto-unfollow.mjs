@@ -1,3 +1,5 @@
+import { appendFileSync } from 'node:fs';
+
 const API_URL = 'https://api.github.com';
 const token = process.env.GITHUB_TOKEN?.trim();
 const dryRun = !['0', 'false', 'no'].includes((process.env.DRY_RUN || 'true').toLowerCase());
@@ -105,7 +107,7 @@ function writeSummary({ username, candidates, targets, dryRun: wasDryRun, unfoll
   if (wasDryRun && targets.length) {
     lines.push('', '### Accounts that would be unfollowed', '', ...targets.map(({ login }) => `- [@${login}](https://github.com/${login})`));
   }
-  process.appendFileSync(summaryPath, `${lines.join('\n')}\n`);
+  appendFileSync(summaryPath, `${lines.join('\n')}\n`);
 }
 
 function fail(message) {
